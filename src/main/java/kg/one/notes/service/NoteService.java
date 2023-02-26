@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import kg.one.notes.entity.Note;
+import kg.one.notes.exception.ResourceNotFoundException;
 import kg.one.notes.repository.NoteRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +20,7 @@ public class NoteService {
 	}
 
 	public Note getNote(int id) {
-		return repository.findById(id).orElseThrow(() -> new RuntimeException());
+		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Note not found"));
 	}
 
 	public List<Note> getAllNotes() {
@@ -27,7 +28,7 @@ public class NoteService {
 	}
 
 	public Note updateNote(int id, String content) {
-		Note note = repository.findById(id).orElseThrow(() -> new RuntimeException());
+		Note note = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Note not found"));
 		note.setContent(content);
 		return repository.save(note);
 	}
